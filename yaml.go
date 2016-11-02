@@ -49,9 +49,6 @@ func (tasks *InitTasks) Init_Yaml_Run(path string) bool {
 		log.WithError(err).Error("An error occured interpreting yml task list.")
 	}
 
-	// Add some message items
-	tasks.AddFile("kraut/CREATEDFROM.md", "THIS PROJECT WAS CREATED A KRAUT YAML INSTALLER :"+path)
-
 	return true
 }
 
