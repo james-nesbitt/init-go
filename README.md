@@ -1,2 +1,8 @@
-# init-go
-A go library to manage set of files using yaml instructions, and to build yaml instructions from a set of files.
+# Initialize
+
+The init library container all of the functionality for the init command,
+used to create project configurations based on patterns or remote demo
+configurations.
+
+This will be moved to it's own library or we will refactor to base off 
+of the coreOS cloud.config library.
