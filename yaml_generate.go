@@ -41,10 +41,12 @@ func (generator *YMLInitGenerator) generateSingleFile(fullPath string, sourcePat
 
 			line, err = r.ReadString(10) // 0x0A separator = newline
 			if err == io.EOF {
+				generator.output.Write([]byte(indent + line))
 				generator.output.Write([]byte(indent + "\n"))
 				break
 			} else if err != nil {
 				log.Error(err.Error())
+				generator.output.Write([]byte(indent + "\n"))
 				return false
 			}
 		}
