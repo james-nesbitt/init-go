@@ -82,11 +82,23 @@ func (iterator *GenerateIterator) generate_Recursive(sourceRootPath string, sour
 
 		// check for GIT folder
 		if _, err := os.Open(path.Join(fullPath, ".git")); err == nil {
-			if iterator.generator.generateGit(fullPath, sourcePath) {
-				log.WithFields(log.Fields{"path": sourcePath}).Info("Generated git file.")
-				return true
-			} else {
-				log.WithFields(log.Fields{"path": sourcePath}).Warning("Failed to generate git file.")
+			// check if that git path is skipped, if so don't use the git generator
+			skipThisGit := false
+			gitPath := path.Join(sourcePath, ".git")
+			for _, skipEach := range skip {
+				if match, _ := regexp.MatchString(skipEach, gitPath); match {
+					log.WithFields(log.Fields{"path": sourcePath}).Info("Skipping git generation, as .git path was marked as a skip path.")
+					skipThisGit = true
+					break
+				}
+			}
+			if !skipThisGit {
+				if iterator.generator.generateGit(fullPath, sourcePath) {
+					log.WithFields(log.Fields{"path": sourcePath}).Info("Generated git file.")
+					return true
+				} else {
+					log.WithFields(log.Fields{"path": sourcePath}).Warning("Failed to generate git file.")
+				}
 			}
 		}
 
